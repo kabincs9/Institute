@@ -1,1 +1,200 @@
+# Lab 5 — C++ Programs
 
+---
+
+## Q1. Friend Function `calculateArea()` — Rectangle and Triangle
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Triangle; // forward declaration
+
+class Rectangle {
+    int length, breadth;
+public:
+    Rectangle(int l, int b) {
+        length = l;
+        breadth = b;
+    }
+    friend void calculateArea(Rectangle r, Triangle t);
+};
+
+class Triangle {
+    int base, height;
+public:
+    Triangle(int b, int h) {
+        base = b;
+        height = h;
+    }
+    friend void calculateArea(Rectangle r, Triangle t);
+};
+
+void calculateArea(Rectangle r, Triangle t) {
+    int rectArea = r.length * r.breadth;
+    float triArea = 0.5 * t.base * t.height;
+    cout << "Area of Rectangle: " << rectArea << endl;
+    cout << "Area of Triangle: " << triArea << endl;
+}
+
+int main() {
+    Rectangle r(5, 4);
+    Triangle t(6, 8);
+    calculateArea(r, t);
+    return 0;
+}
+```
+
+**Output:**
+```
+Area of Rectangle: 20
+Area of Triangle: 24
+```
+
+---
+
+## Q2. Friend Class `TotalMarks` — Class `Marks`
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class TotalMarks; // forward declaration
+
+class Marks {
+private:
+    int theoryMarks;
+protected:
+    int practicalMarks;
+public:
+    Marks(int t, int p) {
+        theoryMarks = t;
+        practicalMarks = p;
+    }
+    friend class TotalMarks;
+};
+
+class TotalMarks {
+public:
+    void displayMarks(Marks m) {
+        int total = m.theoryMarks + m.practicalMarks;
+        cout << "Theory Marks: " << m.theoryMarks << endl;
+        cout << "Practical Marks: " << m.practicalMarks << endl;
+        cout << "Total Marks: " << total << endl;
+    }
+};
+
+int main() {
+    Marks m(40, 25);
+    TotalMarks tm;
+    tm.displayMarks(m);
+    return 0;
+}
+```
+
+**Output:**
+```
+Theory Marks: 40
+Practical Marks: 25
+Total Marks: 65
+```
+
+---
+
+## Q3. Class `Student` — Copy Constructor
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Student {
+private:
+    string name;
+    int age;
+public:
+    // Parameterized constructor
+    Student(string n, int a) {
+        name = n;
+        age = a;
+        cout << "Parameterized Constructor called" << endl;
+    }
+
+    // Copy constructor
+    Student(Student &s) {
+        name = s.name;
+        age = s.age;
+        cout << "Copy Constructor called" << endl;
+    }
+
+    void display() {
+        cout << "Name: " << name << endl;
+        cout << "Age: " << age << endl;
+    }
+};
+
+int main() {
+    Student s1("Aarav", 20);
+    s1.display();
+
+    Student s2(s1); // copy constructor called
+    s2.display();
+
+    return 0;
+}
+```
+
+**Output:**
+```
+Parameterized Constructor called
+Name: Aarav
+Age: 20
+Copy Constructor called
+Name: Aarav
+Age: 20
+```
+
+---
+
+## Q4. Class `Book` — Constructor and Destructor
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Book {
+private:
+    string title;
+    float price;
+public:
+    // Constructor
+    Book(string t, float p) {
+        title = t;
+        price = p;
+        cout << "Book created: " << title << endl;
+    }
+
+    void display() {
+        cout << "Title: " << title << endl;
+        cout << "Price: " << price << endl;
+    }
+
+    // Destructor
+    ~Book() {
+        cout << "Book destroyed: " << title << endl;
+    }
+};
+
+int main() {
+    Book b("C++ Basics", 350.50);
+    b.display();
+    return 0;
+}
+```
+
+**Output:**
+```
+Book created: C++ Basics
+Title: C++ Basics
+Price: 350.5
+Book destroyed: C++ Basics
+```
