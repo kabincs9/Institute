@@ -1,0 +1,48 @@
+#include <iostream>
+using namespace std;
+
+class Shape {
+public:
+    virtual void area() = 0; // pure virtual function
+};
+
+class Circle : public Shape {
+    double radius;
+public:
+    Circle(double r) : radius(r) {}
+    void area() override {
+        cout << "Circle Area: " << 3.14159 * radius * radius << endl;
+    }
+};
+
+class Rectangle : public Shape {
+    double width, height;
+public:
+    Rectangle(double w, double h) : width(w), height(h) {}
+    void area() override {
+        cout << "Rectangle Area: " << width * height << endl;
+    }
+};
+
+class Triangle : public Shape {
+    double base, height;
+public:
+    Triangle(double b, double h) : base(b), height(h) {}
+    void area() override {
+        cout << "Triangle Area: " << 0.5 * base * height << endl;
+    }
+};
+
+int main() {
+    Shape* s;
+
+    Circle c(5);
+    Rectangle r(4, 6);
+    Triangle t(4, 5);
+
+    s = &c; s->area();
+    s = &r; s->area();
+    s = &t; s->area();
+
+    return 0;
+}
